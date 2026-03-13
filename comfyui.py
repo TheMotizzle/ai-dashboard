@@ -3,6 +3,7 @@
 import json
 from typing import Dict, List
 import urllib.request
+import urllib.error
 
 HTTP_TIMEOUT = 2
 
@@ -21,10 +22,10 @@ def get_comfyui_server_status(port: int) -> Dict:
         with urllib.request.urlopen(req, timeout=HTTP_TIMEOUT) as response:
             response.read()
             result["status"] = "ONLINE"
-    except urllib.error.URLError:
-        pass
-    except Exception:
-        pass
+    except urllib.error.URLError as e:
+        result["error"] = str(e)
+    except Exception as e:
+        result["error"] = str(e)
     
     return result
 

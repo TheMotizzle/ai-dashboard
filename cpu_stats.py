@@ -1,12 +1,12 @@
 #!/usr/bin/env python3
-import psutil
+import sys
 from typing import Tuple
 
 try:
     import psutil
 except ImportError:
-    print("psutil not found. Install with: pip install psutil")
-    exit(1)
+    print("ERROR: psutil not found. Install with: pip install psutil")
+    sys.exit(1)
 
 
 def get_cpu_usage() -> float:

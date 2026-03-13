@@ -1,7 +1,11 @@
 #!/usr/bin/env python3
 import json
+import logging
 from typing import Dict, List
 import urllib.request
+
+logging.basicConfig(level=logging.WARNING)
+logger = logging.getLogger(__name__)
 
 HTTP_TIMEOUT = 2
 
@@ -22,8 +26,8 @@ def get_llm_server_status(port: int) -> Dict:
             result["status"] = "ONLINE"
             if isinstance(data.get("data"), list) and len(data["data"]) > 0:
                 result["model_id"] = data["data"][0].get("id", "unknown")
-    except Exception:
-        pass
+    except Exception as e:
+        logger.debug(f"LLM server on port {port} offline: {e}")
     
     return result
 
